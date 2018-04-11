@@ -1,39 +1,28 @@
-class Title extends React.Component {
-  render() {
-    return (
-      <div>
-        <h1>Hello, {this.props.children} !</h1>
-      </div>
-    )
-  }
-}
-
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {counter: this.props.quantity};
   }
-  clickToMe() {
-    alert(this.props.name)
+
+  increase() {
+    this.setState((prevState) => ({
+      counter: Number(prevState.counter) + 1
+    }))
   }
   render() {
     return (
       <div>
         <h2> Welcome {this.props.name} </h2>
-        <button onClick={() => this.clickToMe()}>Click To Me</button>
-        <button onClick={() => {getName(this.props.name)}}>Click To Me</button>
+        <h2> {this.state.counter} </h2>
+        <button onClick={() => this.increase()}>count</button>
       </div>
     )
   }
 }
 
-var getName = (name) => {
-  alert(name)
-}
-
 var _element = () => {
   const _Element =
   <div>
-    <Title>ReactJS</Title>
     <Welcome name="to my website" quantity="20" />
     <h2>It is {new Date().toLocaleTimeString()}.</h2>
     <hr />
