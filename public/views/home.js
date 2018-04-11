@@ -11,28 +11,19 @@ class Title extends React.Component {
 class Welcome extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {counter: 0};
   }
   clickToMe() {
     alert(this.props.name)
-  }
-  increase() {
-    this.setState((prevState) => ({
-      counter: prevState.counter + 1
-    }))
   }
   render() {
     return (
       <div>
         <h2> Welcome {this.props.name} </h2>
-        <h2> {this.state.counter} </h2>
         <button onClick={() => this.clickToMe()}>Click To Me</button>
         <button onClick={() => {getName(this.props.name)}}>Click To Me</button>
-        <button onClick={() => this.increase()}>count</button>
       </div>
     )
   }
-
 }
 
 var getName = (name) => {
@@ -43,8 +34,9 @@ var _element = () => {
   const _Element =
   <div>
     <Title>ReactJS</Title>
-    <Welcome name="to my website" />
+    <Welcome name="to my website" quantity="20" />
     <h2>It is {new Date().toLocaleTimeString()}.</h2>
+    <hr />
   </div>
   ReactDOM.render(
     _Element
