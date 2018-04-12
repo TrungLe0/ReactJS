@@ -1,38 +1,50 @@
-class Note extends React.Component {
+class LoginController extends React.Component {
   constructor(props) {
     super(props)
+    this.handleLoginClick = this.handleLoginClick.bind(this)
+    this.handleLogoutClick = this.handleLogoutClick.bind(this)
+    this.state = {isLogin: false}
   }
-  render() {
-    return (
-      <p>{this.props.children}</p>
-    )
-  }
-}
 
-class List extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      arrayString: ['NodeJS', 'ReactJS', 'AngularJS'],
-      arrayNumber: [1, 2, 3, 4, 5]
-    }
+  handleLoginClick() {
+    this.setState({isLogin: true})
   }
-  addItem() {
-    this.setState(prevState => ({
-        arrayString: prevState.arrayString.concat(['hello', 'bla'])
-    }))
+
+  handleLogoutClick() {
+    this.setState({isLogin: false})
   }
   render() {
+    let isLogin = this.state.isLogin
+    let button = !isLogin ? (<LoginButton onClick={this.handleLoginClick} />) : (<LogoutButton onClick={this.handleLogoutClick} />)
     return (
       <div>
-        <button onClick={() => this.addItem()}>Add Item</button>
-        {this.state.arrayString.map((item, index) => {
-          return <Note key={index}>{item}</Note>
-        })}
+        <Greeting isLogined={isLogin} />
+        {button}
       </div>
     )
   }
 }
+
+function Greeting(props) {
+  if(props.isLogined) return <UserGreeting />
+  return <GuesGreeting />
+}
+
+function UserGreeting() {
+  return <h1>Hello User</h1>
+}
+
+function GuesGreeting() {
+  return <h1>Hello Gues</h1>
+}
+
+function LoginButton(props) {
+  return <button onClick={props.onClick}>Login</button>
+}
+
+function LogoutButton(props) {
+  return <button onClick={props.onClick}>Logout</button>
+}
 ReactDOM.render(
-  <List />
+  <LoginController />
   , document.getElementById('root'))
