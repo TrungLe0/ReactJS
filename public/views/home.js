@@ -1,51 +1,38 @@
-class InputTag extends React.Component {
+class Note extends React.Component {
   constructor(props) {
     super(props)
-    this.username = React.createRef()
   }
-  showName() {
-    let username = this.username.current.value
-    alert(username)
+  render() {
+    return (
+      <p>{this.props.children}</p>
+    )
+  }
+}
+
+class List extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      arrayString: ['NodeJS', 'ReactJS', 'AngularJS'],
+      arrayNumber: [1, 2, 3, 4, 5]
+    }
+  }
+  addItem() {
+    this.setState(prevState => ({
+        arrayString: prevState.arrayString.concat(['hello', 'bla'])
+    }))
   }
   render() {
     return (
       <div>
-        <input type="text" ref={this.username} />
-        <button onClick={() => this.showName()}>Show</button>
+        <button onClick={() => this.addItem()}>Add Item</button>
+        {this.state.arrayString.map((item, index) => {
+          return <Note key={index}>{item}</Note>
+        })}
       </div>
     )
   }
 }
-
-class ClickButton extends React.Component {
-  constructor() {
-    super()
-    this.state = {count: 0}
-  }
-  increase() {
-    this.setState({
-      count: Number(this.state.count) + 1
-    })
-  }
-  render() {
-    return (
-      <button onClick={() => this.increase()}>Hello {this.state.count}</button>
-    )
-  }
-  componentDidMount() {
-    setInterval(() => this.increase(), 1000)
-  }
-}
-
-var _element = () => {
-  const _Element =
-  <div>
-    <InputTag />
-    <ClickButton />
-  </div>
-  ReactDOM.render(
-    _Element
-    , document.getElementById('root'))
-}
-
-setInterval(_element, 1000)
+ReactDOM.render(
+  <List />
+  , document.getElementById('root'))
