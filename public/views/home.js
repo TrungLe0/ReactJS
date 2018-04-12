@@ -1,50 +1,81 @@
-class LoginController extends React.Component {
+function Title() {
+  return <h1>to do list</h1>
+}
+
+class InputTag extends React.Component {
   constructor(props) {
     super(props)
-    this.handleLoginClick = this.handleLoginClick.bind(this)
-    this.handleLogoutClick = this.handleLogoutClick.bind(this)
-    this.state = {isLogin: false}
-  }
-
-  handleLoginClick() {
-    this.setState({isLogin: true})
-  }
-
-  handleLogoutClick() {
-    this.setState({isLogin: false})
+    this.myText = React.createRef()
   }
   render() {
-    let isLogin = this.state.isLogin
-    let button = !isLogin ? (<LoginButton onClick={this.handleLoginClick} />) : (<LogoutButton onClick={this.handleLogoutClick} />)
+    return <input type="text" ref={this.myText} />
+  }
+}
+//
+class ClickButton extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {}
+  }
+
+  render() {
     return (
-      <div>
-        <Greeting isLogined={isLogin} />
-        {button}
+      <div className="btn-group">
+        <button className="btn-clear">Clear</button>
+        <button className="btn-add">Add</button>
       </div>
     )
   }
 }
 
-function Greeting(props) {
-  if(props.isLogined) return <UserGreeting />
-  return <GuesGreeting />
+function Todos(props) {
+  return (
+    <ul>
+      <Todo name="AngularJS" />
+      <Todo name="NodeJS" />
+      <Todo name="ReactJS" />
+    </ul>
+  )
 }
 
-function UserGreeting() {
-  return <h1>Hello User</h1>
+function Todo(props) {
+  return (
+    <li>
+      <span className="fa fa-check"></span>
+      {props.name}
+      <span className="fa fa-trash-o btn-remove"></span>
+    </li>
+  )
 }
 
-function GuesGreeting() {
-  return <h1>Hello Gues</h1>
+function CreateForm() {
+  return (
+    <div className="form">
+      <Title />
+      <InputTag />
+      <ClickButton />
+    </div>
+  )
 }
 
-function LoginButton(props) {
-  return <button onClick={props.onClick}>Login</button>
+function CreateResult() {
+  return (
+    <div className="result">
+      <Todos />
+    </div>
+  )
 }
 
-function LogoutButton(props) {
-  return <button onClick={props.onClick}>Logout</button>
+class Container extends React.Component {
+  render() {
+    return (
+      <div className="container">
+        <CreateForm />
+        <CreateResult />
+      </div>
+    )
+  }
 }
 ReactDOM.render(
-  <LoginController />
+  <Container />
   , document.getElementById('root'))
