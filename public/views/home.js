@@ -1,31 +1,47 @@
-class Welcome extends React.Component {
+class InputTag extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {counter: this.props.quantity};
+    super(props)
+    this.username = React.createRef()
   }
-
-  increase() {
-    this.setState((prevState) => ({
-      counter: Number(prevState.counter) + 1
-    }))
+  showName() {
+    let username = this.username.current.value
+    alert(username)
   }
   render() {
     return (
       <div>
-        <h2> Welcome {this.props.name} </h2>
-        <h2> {this.state.counter} </h2>
-        <button onClick={() => this.increase()}>count</button>
+        <input type="text" ref={this.username} />
+        <button onClick={() => this.showName()}>Show</button>
       </div>
     )
+  }
+}
+
+class ClickButton extends React.Component {
+  constructor() {
+    super()
+    this.state = {count: 0}
+  }
+  increase() {
+    this.setState({
+      count: Number(this.state.count) + 1
+    })
+  }
+  render() {
+    return (
+      <button onClick={() => this.increase()}>Hello {this.state.count}</button>
+    )
+  }
+  componentDidMount() {
+    setInterval(() => this.increase(), 1000)
   }
 }
 
 var _element = () => {
   const _Element =
   <div>
-    <Welcome name="to my website" quantity="20" />
-    <h2>It is {new Date().toLocaleTimeString()}.</h2>
-    <hr />
+    <InputTag />
+    <ClickButton />
   </div>
   ReactDOM.render(
     _Element
