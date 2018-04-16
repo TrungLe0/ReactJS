@@ -6,43 +6,49 @@ class InputTag extends React.Component {
   constructor(props) {
     super(props)
     this.myText = React.createRef()
-  }
-  render() {
-    return <input type="text" ref={this.myText} />
-  }
-}
-//
-class ClickButton extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {}
+    this.state = {value: ''}
   }
 
   render() {
     return (
-      <div className="btn-group">
-        <button className="btn-clear">Clear</button>
-        <button className="btn-add">Add</button>
+      <div>
+        <input type="text" value={this.state.value} />
+        <Button />
       </div>
     )
   }
+}
+//
+
+function Button() {
+  return (
+    <div className="btn-group">
+      <button className="btn-clear">Clear</button>
+      <button className="btn-add">Add</button>
+    </div>
+  )
 }
 
 function Todos(props) {
   return (
     <ul>
-      <Todo name="AngularJS" />
-      <Todo name="NodeJS" />
-      <Todo name="ReactJS" />
+      {
+        props.result.map((todo) => {
+          return <Todo key={ todo['id'] } todo={ todo } />
+        })
+      }
     </ul>
   )
 }
 
 function Todo(props) {
+  let classCheck = ['fa fa-check']
+  if (props.todo['done'] === true)
+    classCheck = classCheck.concat('checked').join(' ')
   return (
     <li>
-      <span className="fa fa-check"></span>
-      {props.name}
+      <span className={ classCheck }></span>
+      {props.todo['name']}
       <span className="fa fa-trash-o btn-remove"></span>
     </li>
   )
@@ -53,17 +59,34 @@ function CreateForm() {
     <div className="form">
       <Title />
       <InputTag />
-      <ClickButton />
     </div>
   )
 }
 
-function CreateResult() {
-  return (
-    <div className="result">
-      <Todos />
-    </div>
-  )
+class CreateResult extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state ={result: [
+      {
+        id: 1,
+        name: 'AngularJS',
+        done: false
+      },
+      {
+        id: 2,
+        name: 'NodeJS',
+        done: true
+      }
+    ]}
+  }
+  render() {
+    return (
+      <div className="result">
+        <Todos result={this.state.result} />
+      </div>
+    )
+  }
+
 }
 
 class Container extends React.Component {
