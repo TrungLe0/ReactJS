@@ -7,6 +7,15 @@ class TodoList extends Component {
     this.state = {
       items: []
     }
+    if(localStorage) {
+      for (var i = 0; i < localStorage.length; i++) {
+        var _key = localStorage.key(i)
+        if (_key.substring(0, 4) === 'todo') {
+          var item = JSON.parse(localStorage.getItem(_key))
+          this.state.items.push(item)
+        }
+      }
+    }
     this.addItem = this.addItem.bind(this)
     this.deleteItem = this.deleteItem.bind(this)
     this.checkItem = this.checkItem.bind(this)
@@ -26,6 +35,8 @@ class TodoList extends Component {
           items: prevState.items.concat(newItem)
         }
       })
+      let _key = 'todo' + newItem['key']
+      localStorage.setItem(_key, JSON.stringify(newItem))
     }
     this.input.value = ''
     e.preventDefault()
@@ -33,6 +44,8 @@ class TodoList extends Component {
 
   deleteItem (key) {
     this.setState({items: this.state.items.filter(item => item['key'] !== key)})
+    let _key = 'todo' + key
+    localStorage.removeItem(_key)
   }
 
   checkItem (key) {
@@ -41,6 +54,8 @@ class TodoList extends Component {
       let todo = todoEntries[i]
       if (todo['key'] === key) {
         todo['done'] = !todo['done']
+        let _key = 'todo' + todo['key']
+        localStorage.setItem(_key, JSON.stringify(todo))
         break
       }
     }
