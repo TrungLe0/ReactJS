@@ -13,7 +13,7 @@ class TodoList extends Component {
   }
 
   addItem (e) {
-    let item = this._inputElement.value.trim()
+    let item = this.input.value.trim()
     if (item !== '') {
       let newItem = {
         key: Date.now(),
@@ -27,7 +27,7 @@ class TodoList extends Component {
         }
       })
     }
-    this._inputElement.value = ''
+    this.input.value = ''
     e.preventDefault()
   }
 
@@ -53,7 +53,7 @@ class TodoList extends Component {
         <div className="form">
           <h1>to do list</h1>
           <form onSubmit={this.addItem}>
-            <input ref={ (a) => (this._inputElement = a) } type="text" placeholder="Enter task" />
+            <input ref={ (input) => (this.input = input) } type="text" placeholder="Enter task......" />
             <button type="submit" className="btn-add">Add</button>
           </form>
         </div>
